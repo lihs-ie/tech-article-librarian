@@ -1,0 +1,34 @@
+{
+  "name": "delete-test-01",
+  "description": "delete-test-01-description",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.398.0",
+    "@aws-sdk/lib-dynamodb": "^3.398.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "aws-sdk-client-mock": "^2.0.0",
+    "path": "^0.12.7",
+    "typescript-object-dependency-factory": "github:lihs-ie/typescript-object-dependency-factory",
+    "typescript-upstream-mock": "github:lihs-ie/vitest-upstream-mock",
+    "vitest": "^3.0.5"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "build": "sam build --use-container"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)",
+      "**/__tests__/**/*.mjs?(x)",
+      "**/?(*.)+(spec|test).mjs?(x)"
+    ],
+    "moduleFileExtensions": [
+      "mjs",
+      "js"
+    ]
+  }
+}
