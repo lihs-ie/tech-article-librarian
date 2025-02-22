@@ -4,6 +4,7 @@ import { defineConfig } from "vitest/config";
 /// <reference types="vitest" />
 export default defineConfig({
   test: {
+    include: ["./**/*.test.ts"],
     environment: "node",
     globals: true,
     alias: {
@@ -11,10 +12,8 @@ export default defineConfig({
       "^aspects/(.*)$": "/src/aspects/$1",
       "^config(.*)$": "/src/config/$1",
       "^domains(.*)$": "/src/domains/$1",
-      "^extensions(.*)$": "/src/extensions/$1",
       "^infrastructures(.*)$": "/src/infrastructures/$1",
       "^tests(.*)$": "/src/tests/$1",
-      "^components(.*)$": "/src/components/$1",
     },
     setupFiles: ["./vitest.setup.ts"],
   },

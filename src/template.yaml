@@ -1,120 +1,167 @@
-# This is the SAM template that represents the architecture of your serverless application
-# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
-
-# The AWSTemplateFormatVersion identifies the capabilities of the template
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
 AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
 Description: >-
   tech-article-librarian
 
-# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
-Transform:
-- AWS::Serverless-2016-10-31
+Parameters:
+  ProjectName:
+    Type: String
+    Default: tech-article-librarian
+    Description: Enter the project name
+  FunctionNamePrefix:
+    Type: String
+    Default: tech-article-librarian
+    Description: Enter the function name
+  SecretName:
+    Type: String
+    Default: tech-article-librarian-secret
+    Description: Enter the secret name
 
-# Resources declares the AWS resources that you want to include in the stack
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  SecretManager:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub "${SecretName}"
+      Description: "Secret for tech-article-librarian"
 
-  # This is a Lambda function config associated with the source code: get-all-items.js
-  getAllItemsFunction:
+  SlackFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${FunctionNamePrefix}-slack"
+      RetentionInDays: 1
+
+  LineFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${FunctionNamePrefix}-line"
+      RetentionInDays: 1
+
+  PersistNewArticleFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${FunctionNamePrefix}-persist-new-article"
+      RetentionInDays: 1
+
+  SlackFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-all-items.getAllItemsHandler
+      FunctionName: !Sub "${FunctionNamePrefix}-slack"
+      CodeUri: "."
+      Handler: ./handlers/slack.Handler
       Runtime: nodejs22.x
+      MemorySize: 256
       Architectures:
-      - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items from
-        a DynamoDB table.
-      Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable
-      - DynamoDBCrudPolicy:
-          TableName: !Ref SampleTable
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          SAMPLE_TABLE: !Ref SampleTable
+        - arm64
+      Timeout: 3
       Events:
-        Api:
+        SlackWebhook:
           Type: Api
           Properties:
-            Path: /
-            Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
-  # This is a Lambda function config associated with the source code: get-by-id.js
-  getByIdFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/get-by-id.getByIdHandler
-      Runtime: nodejs22.x
-      Architectures:
-      - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: A simple example includes a HTTP get method to get one item by
-        id from a DynamoDB table.
-      Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable
-      - DynamoDBCrudPolicy:
-          TableName: !Ref SampleTable
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          SAMPLE_TABLE: !Ref SampleTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /{id}
-            Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
-  # This is a Lambda function config associated with the source code: put-item.js
-  putItemFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/put-item.putItemHandler
-      Runtime: nodejs22.x
-      Architectures:
-      - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: A simple example includes a HTTP post method to add one item to
-        a DynamoDB table.
-      Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable
-      - DynamoDBCrudPolicy:
-          TableName: !Ref SampleTable
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          SAMPLE_TABLE: !Ref SampleTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /
+            Path: /slack
             Method: POST
-  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - lambda:InvokeFunction
+              Resource:
+                - !GetAtt PersistNewArticleFunction.Arn
+      LoggingConfig:
+        LogGroup: !Ref SlackFunctionLogGroup
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Target: es2022
+        Minify: true
+        EntryPoints:
+          - ./handlers/slack.ts
+        Sourcemap: true
 
-  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
-  SampleTable:
-    Type: AWS::Serverless::SimpleTable
+  LineFunction:
+    Type: AWS::Serverless::Function
     Properties:
-      PrimaryKey:
-        Name: id
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
+      FunctionName: !Sub "${FunctionNamePrefix}-line"
+      CodeUri: "."
+      Handler: ./handlers/line.Handler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Architectures:
+        - arm64
+      Timeout: 60
+      Events:
+        PublishArticles:
+          Type: Schedule
+          Properties:
+            Schedule: "rate(4 hours)"
+            Name: "PublishArticles"
+            Description: "Publish articles to LINE"
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: !Ref SecretManager
+      LoggingConfig:
+        LogGroup: !Ref LineFunctionLogGroup
+      Environment:
+        Variables:
+          ACL_LINE_CHANNEL_ACCESS_TOKEN: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_CHANNEL_ACCESS_TOKEN}}"
+          ACL_LINE_USER_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_USER_ID}}"
+          ACL_LINE_API_ENDPOINT: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_API_ENDPOINT}}"
+          ACL_FIREBASE_APP_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_APP_ID}}"
+          ACL_LINE_NO_IMAGE_URL: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_NO_IMAGE_URL}}"
+          ACL_OGP_USER_AGENT: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_OGP_USER_AGENT}}"
+          ACL_FIREBASE_USER_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_USER_ID}}"
+          ACL_FIREBASE_SERVICE_ACCOUNT_KEY: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_SERVICE_ACCOUNT_KEY}}"
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Target: es2022
+        Minify: true
+        EntryPoints:
+          - ./handlers/line.ts
+        Sourcemap: true
+
+  PersistNewArticleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${FunctionNamePrefix}-persist-new-article"
+      CodeUri: "."
+      Handler: ./handlers/article.Handler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Architectures:
+        - arm64
+      Timeout: 20
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: !Ref SecretManager
+      LoggingConfig:
+        LogGroup: !Ref PersistNewArticleFunctionLogGroup
+      Environment:
+        Variables:
+          ACL_LINE_CHANNEL_ACCESS_TOKEN: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_CHANNEL_ACCESS_TOKEN}}"
+          ACL_LINE_USER_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_USER_ID}}"
+          ACL_LINE_API_ENDPOINT: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_API_ENDPOINT}}"
+          ACL_FIREBASE_APP_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_APP_ID}}"
+          ACL_LINE_NO_IMAGE_URL: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_NO_IMAGE_URL}}"
+          ACL_OGP_USER_AGENT: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_OGP_USER_AGENT}}"
+          ACL_FIREBASE_USER_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_USER_ID}}"
+          ACL_FIREBASE_SERVICE_ACCOUNT_KEY: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_SERVICE_ACCOUNT_KEY}}"
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Target: es2022
+        Minify: true
+        EntryPoints:
+          - ./handlers/article.ts
+        Sourcemap: true
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
@@ -128,8 +175,15 @@ Resources:
     Properties:
       ResourceGroupName:
         Ref: ApplicationResourceGroup
-      AutoConfigurationEnabled: 'true'
+      AutoConfigurationEnabled: "true"
+
 Outputs:
-  WebEndpoint:
-    Description: API Gateway endpoint URL for Prod stage
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  SlackWebhookApi:
+    Description: "API Gateway endpoint URL for Prod stage for Slack function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/slack/"
+  SlackFunction:
+    Description: "Slack Lambda Function ARN"
+    Value: !GetAtt SlackFunction.Arn
+  SlackFunctionIamRole:
+    Description: "Implicit IAM Role created for Slack function"
+    Value: !GetAtt SlackFunction.Arn

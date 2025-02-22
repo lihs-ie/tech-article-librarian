@@ -16,6 +16,11 @@ lint = true
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
+s3_prefix = "tech-article-librarian"
+region = "ap-northeast-1"
+disable_rollback = true
+parameter_overrides = "ProjectName=\"tech-article-librarian\" FunctionNamePrefix=\"tech-article-librarian\" SecretName=\"tech-article-librarian-secret\""
+image_repositories = []
 
 [default.package.parameters]
 resolve_s3 = true

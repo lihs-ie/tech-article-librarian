@@ -4,27 +4,27 @@ This project contains source code and supporting files for a serverless applicat
 
 - `src` - Code for the application's Lambda function.
 - `events` - Invocation events that you can use to invoke the function.
-- `__tests__` - Unit tests for the application code. 
+- `__tests__` - Unit tests for the application code.
 - `template.yaml` - A template that defines the application's AWS resources.
 
 The application uses several AWS resources, including Lambda functions, an API Gateway API, and Amazon DynamoDB tables. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
 
 If you prefer to use an integrated development environment (IDE) to build and test your application, you can use the AWS Toolkit.  
-The AWS Toolkit is an open-source plugin for popular IDEs that uses the AWS SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds step-through debugging for Lambda function code. 
+The AWS Toolkit is an open-source plugin for popular IDEs that uses the AWS SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds step-through debugging for Lambda function code.
 
 To get started, see the following:
 
-* [CLion](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [GoLand](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [WebStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [Rider](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [PhpStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [PyCharm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [RubyMine](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [DataGrip](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html)
-* [Visual Studio](https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/welcome.html)
+- [CLion](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [GoLand](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [WebStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [Rider](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [PhpStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [PyCharm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [RubyMine](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [DataGrip](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- [VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html)
+- [Visual Studio](https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/welcome.html)
 
 ## Deploy the sample application
 
@@ -32,9 +32,9 @@ The AWS SAM CLI is an extension of the AWS CLI that adds functionality for build
 
 To use the AWS SAM CLI, you need the following tools:
 
-* AWS SAM CLI - [Install the AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html).
-* Node.js - [Install Node.js 22](https://nodejs.org/en/), including the npm package management tool.
-* Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community).
+- AWS SAM CLI - [Install the AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html).
+- Node.js - [Install Node.js 22](https://nodejs.org/en/), including the npm package management tool.
+- Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community).
 
 To build and deploy your application for the first time, run the following in your shell:
 
@@ -45,11 +45,11 @@ sam deploy --guided
 
 The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
 
-* **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
-* **AWS Region**: The AWS region you want to deploy your app to.
-* **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
-* **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modifies IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
-* **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
+- **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
+- **AWS Region**: The AWS region you want to deploy your app to.
+- **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
+- **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modifies IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
+- **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
 
 The API Gateway endpoint API will be displayed in the outputs when the deployment is complete.
 
@@ -82,15 +82,16 @@ my-application$ curl http://localhost:3000/
 The AWS SAM CLI reads the application template to determine the API's routes and the functions that they invoke. The `Events` property on each function's definition includes the route and method for each path.
 
 ```yaml
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /
-            Method: GET
+Events:
+  Api:
+    Type: Api
+    Properties:
+      Path: /
+      Method: GET
 ```
 
 ## Add a resource to your application
+
 The application template uses AWS SAM to define application resources. AWS SAM is an extension of AWS CloudFormation with a simpler syntax for configuring common serverless application resources, such as functions, triggers, and APIs. For resources that aren't included in the [AWS SAM specification](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md), you can use the standard [AWS CloudFormation resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html).
 
 Update `template.yaml` to add a dead-letter queue to your application. In the **Resources** section, add a resource named **MyQueue** with the type **AWS::SQS::Queue**. Then add a property to the **AWS::Serverless::Function** resource named **DeadLetterQueue** that targets the queue's Amazon Resource Name (ARN), and a policy that grants the function permission to access the queue.
@@ -105,7 +106,7 @@ Resources:
       Handler: src/handlers/get-all-items.getAllItemsHandler
       Runtime: nodejs22.x
       DeadLetterQueue:
-        Type: SQS 
+        Type: SQS
         TargetArn: !GetAtt MyQueue.Arn
       Policies:
         - SQSSendMessagePolicy:
@@ -158,3 +159,22 @@ sam delete --stack-name tech-article-librarian
 For an introduction to the AWS SAM specification, the AWS SAM CLI, and serverless application concepts, see the [AWS SAM Developer Guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html).
 
 Next, you can use the AWS Serverless Application Repository to deploy ready-to-use apps that go beyond Hello World samples and learn how authors developed their applications. For more information, see the [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/) and the [AWS Serverless Application Repository Developer Guide](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/what-is-serverlessrepo.html).
+
+|                                  |                                                                                                                                                                              |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ACL_LINE_CHANNEL_ACCESS_TOKEN    | 4p08hm1sXJZg9ZktySLBPM2jnoRYQCdMSvBehCSe9pYmwx8Z032BLzgNuEFfAfripaBkdmkyxMbTbmh82iDzcOkCEwhZh5jIFft7q4qgk19wTZoV+p8vHacTKdbEab0bWplik4dUtHt7mZgqww8bGwdB04t89/1O/w1cDnyilFU= |
+| ACL_LINE_USER_ID                 | Uce5a9862329ea5b26d4d02cf0b0b6a93                                                                                                                                            |
+| ACL_LINE_NO_IMAGE_URL            | https://placehold.jp/30/707070/ffffff/1024x546.png                                                                                                                           |
+| ACL_LINE_API_ENDPOINT            | https://api.line.me/v2                                                                                                                                                       |
+| ACL_FIREBASE_API_KEY             | AIzaSyCHSi7dysT5nNNSBnUJzXsLIRerCBL24DA                                                                                                                                      |
+| ACL_FIREBASE_AUTH_DOMAIN         | tech-article-librarian-2d580.firebaseapp.com                                                                                                                                 |
+| ACL_FIREBASE_PROJECT_ID          | tech-article-librarian-2d580                                                                                                                                                 |
+| ACL_FIREBASE_STORAGE_BUCKET      | tech-article-librarian-2d580.firebasestorage.app                                                                                                                             |
+| ACL_FIREBASE_MESSAGING_SENDER_ID | 860477808788                                                                                                                                                                 |
+| ACL_FIREBASE_APP_ID              | 1:860477808788:web:6393bc095a7422bda11481                                                                                                                                    |
+| ACL_FIREBASE_MEASUREMENT_ID      | G-ETNRLY7BWM                                                                                                                                                                 |
+| ACL_OGP_USER_AGENT               | lihs.dev@gmail.com                                                                                                                                                           |
+| USER_PASSWORD                    | oijwo:jpodfaoijfonfo34;oih8f                                                                                                                                                 |
+
+
+{"ACL_LINE_CHANNEL_ACCESS_TOKEN":"4p08hm1sXJZg9ZktySLBPM2jnoRYQCdMSvBehCSe9pYmwx8Z032BLzgNuEFfAfripaBkdmkyxMbTbmh82iDzcOkCEwhZh5jIFft7q4qgk19wTZoV+p8vHacTKdbEab0bWplik4dUtHt7mZgqww8bGwdB04t89/1O/w1cDnyilFU=","ACL_LINE_USER_ID":"Uce5a9862329ea5b26d4d02cf0b0b6a93","ACL_LINE_NO_IMAGE_URL":"https://placehold.jp/30/707070/ffffff/1024x546.png","ACL_LINE_API_ENDPOINT":"https://api.line.me/v2","ACL_FIREBASE_APP_ID":"1:860477808788:web:6393bc095a7422bda11481","ACL_OGP_USER_AGENT":"lihs.dev@gmail.com","ACL_FIREBASE_USER_ID":"117427835743018144574","ACL_FIREBASE_SERVICE_ACCOUNT_KEY":"{   \"type\": \"service_account\",   \"project_id\": \"tech-article-librarian-2d580\",   \"private_key_id\": \"958e940982b194fcdfd62a76d06b19a159a94f42\",   \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDhGIBG8vcCjPr9\\nq66ZO+3UZKXMrOIc358UMlNHoVIzatESSUbWuk/di6olN7Yit4v4uZiG2ON8IiBQ\\nLpfhmzAMWD0UmoEUtuwWR8BfsD4WYZy9BUj31QWdkRXY5807feayWKhYx5BXdFM7\\nIqs5ImtWB+MWNxQfARdYrgGP5d3hf49vfKBXjfUNOSd5eDs1407A7/+vyibUoqpM\\nn7cjYbRXkDxBWS9spurpVjU4aJJB25UbLKu5uyG2gln43sqKizgtATPeh9JTgu6i\\nIQjxmA7cLgEhwfTJtNISW5KNZXhS7JLBLq6n2GnAZleLsH09EDsy8D5kNUfoQnuK\\n7t3DvzY/AgMBAAECggEAaoblYm5mzuq4d+fRnAxcHDm7q5cf9WkxSGYeupYSqGnD\\nYyORplqLJH6N+coZZOm3kPEIybyIQD2ITFoYn/kJLrZtxbvvHcYKCetQFBj88Sul\\n+WCwbTV/0FeS3tGo86A8VygVF9ruKS1QnHpmTQZIhPD7nA5Z8+hYy6uh6p9vN+F6\\no97yiEsX1iuRMpNSO1YD9FLOjGlqjril9Q+prCt0r5jflHyza3IAAql5RsZVLPfO\\nYkepEJ8QavsYDEbMVRWbtDZwGNazyHKdIj9yiY9QKwIV4wq+7qZ2OXBkyJfA0ZPe\\nj7Ts8I9Fe8NN5xWQ0Tvo0+VXskJjWjkmHHLfPpmZaQKBgQD7ccnSQd4ZMa5IYKf6\\ng4yh68q5VG/SVg3xnJoKHfzG7d96J5NLrVQF/RGjv5R5S0pzLmb0laOq059plYU5\\nr4q60EGLsrUy9ZaReRFSREPwoSmN0/gXcCttcd7DUhkRtDqTzE2MgU48DHLPytJn\\nG4HcTxIs5U69c9Slq+ow6GbQBwKBgQDlLIF9EPK6HhDc5FbDvS2WuLzOSPafbC1V\\n1BUneUdJ5/JCjs+/7qxVkkI/2MRqWk20BNUKRKgQlzoGrL7CGoMnyGdSGudhUy6A\\nhXrkij4Jc+W1oJhWTLgdkt4YyWXefkSliGPIpRy119U5fp4YMB5LR8WOuT4o2u45\\nARhDrElqCQKBgByPbDEpsiSCdB1cfTgDQTITKk+qu5jUlXjgJM8JYPDni/7ACAcM\\nhQK5IAvNcvvkBWzX1HHrnU+GAhFoHl3TBpr5lLhdcB99rcCQU9tYTa9DXwjxDrj6\\n0LP5vyfIZ3iPVCf9iMFw3oYLk+7uRr/XbASuJo5a7XqvcXPv9wXfH+55AoGAUT8A\\nARi7FKSIEeeZovc0bFS+CtvvIwG06NKxVTc3wMnMJzB+EmtJCWU6u2vb5mBxX7q+\\n1E8Wzhru5WLklefUS4xOpNsI4IYe3E12DgO8jplZ/JQcrauxMjrZJixwQvq813qM\\n9ZsjnIwR+bobzjNw6ftd3IVrtgw3nFn5AjTYKhECgYEAgaAphROV1EWhij9sYUxC\\n1SjQtWdE9Ysqmuv7H34IsyK54tqADPblvv5QCLkG9eMY7QMaqD++Xt5sJX9HwOcZ\\nClnUMaFzO46z0lJCvX4H7IVIHXCr5S6camiH4dppPGgJw7YkJFF339UHGt3ranV0\\nElO9OVRUEwhkcQiCczQjy+w=\\n-----END PRIVATE KEY-----\\n\",   \"client_email\": \"firebase-adminsdk-fbsvc@tech-article-librarian-2d580.iam.gserviceaccount.com\",   \"client_id\": \"117427835743018144574\",   \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",   \"token_uri\": \"https://oauth2.googleapis.com/token\",   \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",   \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40tech-article-librarian-2d580.iam.gserviceaccount.com\",   \"universe_domain\": \"googleapis.com\" }"}
