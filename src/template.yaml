@@ -90,12 +90,18 @@ Resources:
         - arm64
       Timeout: 60
       Events:
-        PublishArticles:
+        PublishArticlesHalfPast:
           Type: Schedule
           Properties:
-            Schedule: "rate(4 hours)"
-            Name: "PublishArticles"
-            Description: "Publish articles to LINE"
+            Schedule: "cron(30 5,9,12,19 ? * * *)"
+            Name: "PublishArticlesHalfPast"
+            Description: "Publish articles to LINE at half past the hour"
+        PublishArticlesOnTheHour:
+          Type: Schedule
+          Properties:
+            Schedule: "cron(0 7,15,17,18,21 ? * * *)"
+            Name: "PublishArticlesOnTheHour"
+            Description: "Publish articles to LINE on the hour"
       Policies:
         - AWSLambdaBasicExecutionRole
         - Statement:
