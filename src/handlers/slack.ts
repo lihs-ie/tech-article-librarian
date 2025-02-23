@@ -7,7 +7,7 @@ export const Handler = async (
   request: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult | void> => {
   try {
-    console.log(`Incoming request: ${JSON.stringify(request)}`);
+    console.log(`Incoming request body: ${request.body}.`);
 
     if (!request.body) {
       throw new Error("Invalid request.");
@@ -23,6 +23,8 @@ export const Handler = async (
 
     const payload = payloadSchema.parse(body);
 
+    console.log(`Incoming payload: ${JSON.stringify(payload)}.`);
+
     switch (payload.type) {
       case "url_verification":
         return {
@@ -31,8 +33,13 @@ export const Handler = async (
         };
 
       case "event_callback":
-        await invokeLambda(presentation.handler.names.PERSIST_ARTICLE, payload);
-        return { statusCode: 200, body: "OK" };
+        if (payload.event.subtype !== "message_changed") {
+          await invokeLambda(
+            presentation.handler.names.PERSIST_ARTICLE,
+            payload
+          );
+        }
+        return { statusCode: 200, body: "Event processed." };
     }
   } catch (error) {
     console.error(error);

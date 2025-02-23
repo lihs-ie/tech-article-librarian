@@ -93,15 +93,18 @@ Resources:
         PublishArticlesHalfPast:
           Type: Schedule
           Properties:
-            Schedule: "cron(30 5,9,12,19 ? * * *)"
+            # JST: 9:30, 12:30, 19:30, 5:30
+            Schedule: "cron(30 0,3,10,20 ? * * *)"
             Name: "PublishArticlesHalfPast"
-            Description: "Publish articles to LINE at half past the hour"
+            Description: "Publish articles to LINE at half past the hour (JST)"
         PublishArticlesOnTheHour:
           Type: Schedule
           Properties:
-            Schedule: "cron(0 7,15,17,18,21 ? * * *)"
+            # JST: 15:00, 17:00, 18:00, 21:00, 7:00
+            Schedule: "cron(0 6,8,9,12,22 ? * * *)"
             Name: "PublishArticlesOnTheHour"
-            Description: "Publish articles to LINE on the hour"
+            Description: "Publish articles to LINE on the hour (JST)"
+
       Policies:
         - AWSLambdaBasicExecutionRole
         - Statement:

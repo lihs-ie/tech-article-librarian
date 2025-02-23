@@ -94,7 +94,7 @@ export class Adaptor extends ArticleAdaptor {
         type: "where",
         field: "published",
         operator: "==",
-        value: String(criteria.published),
+        value: criteria.published,
       });
     }
 

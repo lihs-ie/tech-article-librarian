@@ -31,22 +31,37 @@ export class Translator {
   }
 
   private translateRichTextSection(media: MessageEvent): URL | null {
-    const riteTextSection = media.blocks?.map((block) => block.elements).flat();
+    const richTextSection = media.blocks?.map((block) => block.elements).flat();
+    const messageBlock = media.message?.blocks
+      .map((block) => block.elements)
+      .flat();
 
-    if (!riteTextSection) {
+    if (!richTextSection && !messageBlock) {
       return null;
     }
 
-    const elements = riteTextSection
-      .map((section) =>
+    let elements = richTextSection
+      ?.map((section) =>
         section.elements.filter((element) => element.type === "link")
       )
       .flat();
 
+    if (!elements) {
+      elements = messageBlock
+        ?.map((section) =>
+          section.elements.filter((element) => element.type === "link")
+        )
+        .flat();
+    }
+
     const urlElement = List(elements).first(null);
 
     if (!urlElement || !urlElement.url) {
-      throw new Error(`URL element not found. ${riteTextSection}`);
+      throw new Error(
+        `URL element not found. \nrichTextSection: ${JSON.stringify(
+          richTextSection
+        )} \nmessageBlock: ${JSON.stringify(messageBlock)}`
+      );
     }
 
     return new URL(urlElement.url);

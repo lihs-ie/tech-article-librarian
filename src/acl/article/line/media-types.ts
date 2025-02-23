@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { Writer as BaseWriter, Reader as BaseReader } from "acl/common";
 import { List, Map } from "immutable";
 import { Article, Category } from "domains/article";
+import { URL } from "domains/common";
 
 export type RawMedia = {
   sentMessages: Array<{ id: string; quoteToken: string }>;
@@ -14,7 +15,7 @@ export class Reader implements BaseReader<RawMedia> {
 }
 
 type Action = {
-  type: "uri" | "postback";
+  type: "uri" | "postback" | "emoji";
   label: string;
   uri?: string;
   data?: string;
@@ -90,7 +91,7 @@ export class Writer implements BaseWriter<List<Article>> {
     return {
       thumbnailImageUrl: article.image
         ? article.image.value
-        : encodeURIComponent(`${this.noImageURL}?text=${article.title}`),
+        : encodeURI(`${this.noImageURL}?text=${article.title}`),
       imageBackgroundColor: this.backGroundColors.get(
         article.category,
         "#FFFFFF"

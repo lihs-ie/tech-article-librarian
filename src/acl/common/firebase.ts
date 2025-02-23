@@ -5,7 +5,7 @@ type Where = {
   type: "where";
   field: string;
   operator: firestore.WhereFilterOp;
-  value: string;
+  value: string | number | boolean | null;
 };
 
 type OrderBy = {

@@ -28,7 +28,6 @@ export class SlackCallbackMedia extends Media<
   }): CallBackEventMedia {
     return {
       token: Builder.get(StringFactory(10, 10)).build(),
-      team_id: Builder.get(StringFactory(10, 10)).build(),
       api_app_id: Builder.get(StringFactory(10, 10)).build(),
       type: "event_callback",
       event_id: Builder.get(StringFactory(10, 10)).build(),
@@ -39,7 +38,6 @@ export class SlackCallbackMedia extends Media<
         text: `<${overrides.model.url.value} | ${overrides.model.title}>\nTL;DR\n\n${overrides.model.description}"`,
         channel: overrides.channel,
         event_ts: Builder.get(StringFactory(10, 10)).build(),
-        channel_type: Builder.get(StringFactory(10, 10)).build(),
         blocks: [
           {
             type: "rich_text",

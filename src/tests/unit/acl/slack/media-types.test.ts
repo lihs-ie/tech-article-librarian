@@ -1,4 +1,4 @@
-import { callbackSchema } from "acl/slack";
+import { callbackEventSchema } from "acl/slack";
 import { describe } from "node:test";
 import { Builder, StringFactory } from "tests/factories/common";
 import { ArticleFactory } from "tests/factories/domains/article";
@@ -109,6 +109,85 @@ const sample = {
     "4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDZRTDNGRjBQMiIsImFpZCI6IkEwNlBRUDVUVDYyIiwiY2lkIjoiQzA2UFFMSE1OSkoifQ",
 };
 
+const sample2 = {
+  token: "xU63tiDKYQteuOO3wIJRXT1f",
+  team_id: "T06QL3FF0P2",
+  context_team_id: "T06QL3FF0P2",
+  context_enterprise_id: null,
+  api_app_id: "A06PQP5TT62",
+  event: {
+    subtype: "bot_message",
+    text: "<https://blog.generative-agents.co.jp/entry/with-devin|Devinを導入して1ヶ月経ったので、人間とAIとでどのような開発の役割分担をするべきか振り返ってみる | Generative Agents Tech Blog>\nこんにちは、ジェネラティブエージェンツの西見です。 「完全自律型AIエンジニア」という触れ込みと、その印象的なティザー動画で一躍有名になったDevinが、2024年12月10日にGAしました。 <http://www.cognition.ai|www.cognition.ai> それからしばらく経ったこともあって、X上でもチラホラと日本企業におけるDevin採用報告が聞こえてくるようになり、「こんなタスクには使えた:laughing:」「簡単なタスクにハマり続けて使",
+    username: "企業テックブログRSS",
+    icons: {
+      image_36: "https://a.slack-edge.com/80588/img/services/rss_36.png",
+      image_48: "https://a.slack-edge.com/80588/img/services/rss_48.png",
+      image_72: "https://a.slack-edge.com/80588/img/services/rss_72.png",
+    },
+    type: "message",
+    ts: "1740281317.858319",
+    bot_id: "B06PX9ZK4E6",
+    blocks: [
+      {
+        type: "rich_text",
+        block_id: "30SvA",
+        elements: [
+          {
+            type: "rich_text_section",
+            elements: [
+              {
+                type: "link",
+                url: "https://blog.generative-agents.co.jp/entry/with-devin",
+                text: "Devinを導入して1ヶ月経ったので、人間とAIとでどのような開発の役割分担をするべきか振り返ってみる | Generative Agents Tech Blog",
+              },
+              {
+                type: "text",
+                text: "\nこんにちは、ジェネラティブエージェンツの西見です。 「完全自律型AIエンジニア」という触れ込みと、その印象的なティザー動画で一躍有名になったDevinが、2024年12月10日にGAしました。 ",
+              },
+              {
+                type: "link",
+                url: "http://www.cognition.ai",
+                text: "www.cognition.ai",
+              },
+              {
+                type: "text",
+                text: " それからしばらく経ったこともあって、X上でもチラホラと日本企業におけるDevin採用報告が聞こえてくるようになり、「こんなタスクには使えた",
+              },
+              {
+                type: "emoji",
+                name: "laughing",
+                unicode: "1f606",
+              },
+              {
+                type: "text",
+                text: "」「簡単なタスクにハマり続けて使",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    channel: "C06PQMHGXK8",
+    event_ts: "1740281317.858319",
+    channel_type: "channel",
+  },
+  type: "event_callback",
+  event_id: "Ev08E5VCK0MD",
+  event_time: 1740281317,
+  authorizations: [
+    {
+      enterprise_id: null,
+      team_id: "T06QL3FF0P2",
+      user_id: "U06PXCP1YH0",
+      is_bot: true,
+      is_enterprise_install: false,
+    },
+  ],
+  is_ext_shared_channel: false,
+  event_context:
+    "4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDZRTDNGRjBQMiIsImFpZCI6IkEwNlBRUDVUVDYyIiwiY2lkIjoiQzA2UFFNSEdYSzgifQ",
+};
+
 describe("Package media-types", () => {
   describe("payload schema", () => {
     describe("successfully", () => {
@@ -120,10 +199,11 @@ describe("Package media-types", () => {
             model: article,
             channel: Builder.get(StringFactory(10, 10)).build(),
           });
-          console.log(sample);
-          const actual = callbackSchema.parse(sample);
+          const actual1 = callbackEventSchema.parse(sample);
+          const actual2 = callbackEventSchema.parse(sample2);
 
-          console.log(actual);
+          console.log(actual1);
+          console.log(actual2);
         });
       });
     });
