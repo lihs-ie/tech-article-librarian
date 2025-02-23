@@ -18,7 +18,7 @@ export class Adaptor extends ArticleAdaptor {
   public async publish(articles: List<Article>): Promise<void> {
     const request = this.createRequest(articles);
 
-    console.info(`Request upstream:\nto ${request[0]}\noptions ${request[1]}`);
+    console.info(`Request upstream:\nto ${request[0]}\noptions ${JSON.stringify(request[1])}`);
 
     const response = await fetch(...request);
 

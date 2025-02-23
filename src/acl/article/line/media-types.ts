@@ -90,7 +90,7 @@ export class Writer implements BaseWriter<List<Article>> {
     return {
       thumbnailImageUrl: article.image
         ? article.image.value
-        : encodeURI(`${this.noImageURL}?text=${article.title}`),
+        : encodeURIComponent(`${this.noImageURL}?text=${article.title}`),
       imageBackgroundColor: this.backGroundColors.get(
         article.category,
         "#FFFFFF"

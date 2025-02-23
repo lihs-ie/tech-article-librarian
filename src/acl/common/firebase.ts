@@ -1,5 +1,5 @@
 import { firestore } from "firebase-admin";
-import { List, update } from "immutable";
+import { List } from "immutable";
 
 type Where = {
   type: "where";
@@ -39,10 +39,6 @@ export class FirebaseBuilder<T extends { identifier: string }> {
         : firestore.FieldValue.serverTimestamp(),
       updatedAt: firestore.FieldValue.serverTimestamp(),
     };
-
-    console.log(
-      `Persisting data: candidate ${candidate}\n existence: ${target.data()}.`
-    );
 
     await reference.set(candidate);
   }

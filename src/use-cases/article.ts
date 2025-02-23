@@ -11,6 +11,7 @@ import { Repository as OGPRepository } from "domains/ogp";
 import { List } from "immutable";
 import { injectable } from "inversify";
 import { ulid } from "ulidx";
+import { z } from "zod";
 
 export type Condition = {
   category?: Category;
@@ -33,24 +34,28 @@ export class Article {
   ): Promise<void> {
     const ogp = await this.ogpRepository.find(url);
 
+    // titleがurlの場合はスパムとみなしreturn
+    if (z.string().url().safeParse(ogp.title).success) {
+      console.warn(`Spam detected: ${JSON.stringify(ogp)}`);
+      return;
+    }
+
     const image = ogp.image
       ? ogp.image.value.length < Entity.MAX_IMAGE_URL_LENGTH
         ? ogp.image
         : null
       : null;
 
-    let description = ogp.description;
+    let description = null;
 
-    if (image) {
-      if (
-        description &&
-        Entity.MAX_DESCRIPTION_LENGTH_WITH_IMAGE < description.length
-      ) {
-        description = description.slice(
-          0,
-          Entity.MAX_DESCRIPTION_LENGTH_WITH_IMAGE
-        );
-      }
+    if (ogp.description) {
+      description =
+        ogp.description.length < Entity.MAX_DESCRIPTION_LENGTH_WITH_IMAGE
+          ? ogp.description
+          : ogp.description.slice(
+              0,
+              Entity.MAX_DESCRIPTION_LENGTH_WITH_IMAGE - 1
+            ) + "…";
     }
 
     const title =

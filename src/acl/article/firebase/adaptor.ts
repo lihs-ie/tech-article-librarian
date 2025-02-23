@@ -9,7 +9,6 @@ import {
 } from "domains/article";
 
 import { List } from "immutable";
-import { QueryConstraint } from "firebase/firestore";
 import { FirebaseBuilder, Query } from "acl/common";
 import { URL } from "domains/common";
 
@@ -90,7 +89,7 @@ export class Adaptor extends ArticleAdaptor {
       });
     }
 
-    if (criteria.published) {
+    if (criteria.published !== null) {
       constraints.push({
         type: "where",
         field: "published",
