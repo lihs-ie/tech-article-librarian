@@ -117,6 +117,7 @@ Resources:
       Environment:
         Variables:
           ACL_LINE_CHANNEL_ACCESS_TOKEN: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_CHANNEL_ACCESS_TOKEN}}"
+          ACL_LINE_CHANNEL_ACCESS_TOKEN_MIXED: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_CHANNEL_ACCESS_TOKEN_MIXED}}"
           ACL_LINE_USER_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_USER_ID}}"
           ACL_LINE_API_ENDPOINT: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_API_ENDPOINT}}"
           ACL_FIREBASE_APP_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_APP_ID}}"
@@ -156,6 +157,7 @@ Resources:
       Environment:
         Variables:
           ACL_LINE_CHANNEL_ACCESS_TOKEN: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_CHANNEL_ACCESS_TOKEN}}"
+          ACL_LINE_CHANNEL_ACCESS_TOKEN_MIXED: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_CHANNEL_ACCESS_TOKEN_MIXED}}"
           ACL_LINE_USER_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_USER_ID}}"
           ACL_LINE_API_ENDPOINT: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_LINE_API_ENDPOINT}}"
           ACL_FIREBASE_APP_ID: !Sub "{{resolve:secretsmanager:${SecretName}:SecretString:ACL_FIREBASE_APP_ID}}"

@@ -17,7 +17,7 @@ export const aclArticleLine = new ContainerModule((bind) => {
       new Adaptor(
         context.container.get(Writer),
         acl.line.API_ENDPOINT,
-        acl.line.CHANNEL_ACCESS_TOKEN
+        acl.line.CHANNEL_ACCESS_TOKENS
       )
   );
 });

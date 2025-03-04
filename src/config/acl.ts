@@ -18,7 +18,19 @@ const slackChannels = {
 
 export const acl = {
   line: {
-    CHANNEL_ACCESS_TOKEN: process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN || "",
+    CHANNEL_ACCESS_TOKENS: Map<Category, string>({
+      [Category.OTHER]: process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN_MIXED || "",
+      [Category.BACKEND]: process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN || "",
+      [Category.FRONTEND]: process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN || "",
+      [Category.INFRASTRUCTURE]:
+        process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN_MIXED || "",
+      [Category.ARTIFICIAL_INTELLIGENCE]:
+        process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN_MIXED || "",
+      [Category.MOBILE_APPLICATION]:
+        process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN || "",
+      [Category.SCALA]: process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN || "",
+      [Category.DDD]: process.env.ACL_LINE_CHANNEL_ACCESS_TOKEN || "",
+    }),
     USER_ID: process.env.ACL_LINE_USER_ID || "",
     API_ENDPOINT: process.env.ACL_LINE_API_ENDPOINT || "https://api.line.me/v2",
     image: {
